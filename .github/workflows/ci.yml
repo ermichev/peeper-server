@@ -1,12 +1,6 @@
 name: CI
 
 on:
-  push:
-    branches:
-    - main
-    paths:
-    - '**.swift'
-    - '**.yml'
   pull_request:
   workflow_dispatch:
 
