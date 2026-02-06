@@ -1,6 +1,6 @@
 //
 //  ObservedEventsController.swift
-//  ScreenCaptureServer
+//  PeeperServer
 //
 //  Created by Александр Ермичев on 2026/02/02.
 //
@@ -17,7 +17,7 @@ struct ObservedEventsController {
             .post("notify", use: notifyEvent)
     }
     
-    struct NotifyEventRequest: Decodable {
+    struct NotifyEventRequest: Codable {
         let event: String
     }
     
