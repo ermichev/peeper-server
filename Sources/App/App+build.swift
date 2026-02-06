@@ -34,6 +34,7 @@ func buildRouter() throws -> Router<AppRequestContext> {
     router.get("/health") { _,_ in
         return Response(status: .ok)
     }
-    //router.addRoutes(ClientEventsController().endpoints, atPath: "/clientEvents")
+    router.addRoutes(ObservedEventsController().endpoints, atPath: "/observed")
+    router.addRoutes(ObserverRequestsController().endpoints, atPath: "/observer")
     return router
 }
