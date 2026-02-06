@@ -11,6 +11,7 @@ import Foundation
 import Hummingbird
 import HummingbirdTesting
 import Logging
+import NIOFoundationCompat
 import Testing
 
 @testable import App
