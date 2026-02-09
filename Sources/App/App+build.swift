@@ -1,3 +1,10 @@
+//
+//  App+build.swift
+//  PeeperServer
+//
+//  Created by Aleksandr Ermichev on 2026/02/02.
+//
+
 import Configuration
 import Hummingbird
 import Logging

@@ -2,7 +2,7 @@
 //  ObserverRequestsController.swift
 //  PeeperServer
 //
-//  Created by Александр Ермичев on 2026/02/07.
+//  Created by Aleksandr Ermichev on 2026/02/07.
 //
 
 import Dependencies
