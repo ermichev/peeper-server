@@ -1,8 +1,8 @@
 //
 //  InMemoryEventRepository.swift
-//  ScreenCaptureServer
+//  PeeperServer
 //
-//  Created by Александр Ермичев on 2026/02/02.
+//  Created by Aleksandr Ermichev on 2026/02/02.
 //
 
 import Foundation
