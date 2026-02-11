@@ -13,15 +13,15 @@ struct Event: ResponseCodable, Equatable {
     let metadata: EventMetadata
 }
 
-enum EventType: String, ResponseCodable, Equatable {
+enum EventType: ResponseCodable, Equatable {
     case broadcastStarted
     case broadcastStopped
-    case imageCaptured
+    case imageCaptured(imageId: UUID)
     case screenLocked
     case screenUnlocked
 }
 
 struct EventMetadata: ResponseCodable, Equatable, Identifiable {
-    let id: String
+    let id: UUID
     let timestamp: Date
 }
