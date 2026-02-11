@@ -12,7 +12,8 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/hummingbird-project/hummingbird.git", from: "2.0.0"),
         .package(url: "https://github.com/apple/swift-configuration.git", from: "1.0.0", traits: [.defaults, "CommandLineArguments"]),
-        .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.0.0")
+        .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.0.0"),
+        .package(url: "https://github.com/vapor/multipart-kit.git", from: "4.0.0")
     ],
     targets: [
         .executableTarget(name: "App",
@@ -20,8 +21,15 @@ let package = Package(
                 .product(name: "Configuration", package: "swift-configuration"),
                 .product(name: "Dependencies", package: "swift-dependencies"),
                 .product(name: "Hummingbird", package: "hummingbird"),
+                .product(name: "MultipartKit", package: "multipart-kit")
             ],
-            path: "Sources/App"
+            path: "Sources/App",
+            swiftSettings: [
+                // Enable better optimizations when building in Release configuration. Despite the use of
+                // the `.unsafeFlags` construct required by SwiftPM, this flag is recommended for Release
+                // builds. See <https://github.com/swift-server/guides#building-for-production> for details.
+                .unsafeFlags(["-cross-module-optimization"], .when(configuration: .release))
+            ]
         ),
         .testTarget(name: "AppTests",
             dependencies: [
