@@ -10,6 +10,7 @@ import Logging
 
 enum LoggerDependencyKey: DependencyKey {
     static let liveValue = Logger(label: "Peeper")
+    static let testValue = Logger(label: "Peeper")
 }
 
 extension DependencyValues {

@@ -18,6 +18,6 @@ struct CreateEventsTableMigration: AsyncMigration {
     }
 
     func revert(on database: Database) async throws {
-        return try await database.schema("parks").delete()
+        return try await database.schema("events").delete()
     }
 }

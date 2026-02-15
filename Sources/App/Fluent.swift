@@ -10,6 +10,7 @@ import HummingbirdFluent
 
 enum FluentDependencyKey: DependencyKey {
     static let liveValue = Fluent(logger: Dependency(\.logger).wrappedValue)
+    static let testValue = Fluent(logger: Dependency(\.logger).wrappedValue)
 }
 
 extension DependencyValues {
