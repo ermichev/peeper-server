@@ -11,6 +11,7 @@ import FluentSQLiteDriver
 import Hummingbird
 import HummingbirdFluent
 import Logging
+import ServiceLifecycle
 
 // Request context used by application
 typealias AppRequestContext = BasicRequestContext
@@ -21,19 +22,27 @@ func buildApplication(reader: ConfigReader) async throws -> some ApplicationProt
     var logger = Dependency(\.logger).wrappedValue
     logger.logLevel = reader.string(forKey: "log.level", as: Logger.Level.self, default: .info)
     
+    let router = try buildRouter()
+    let app = Application(
+        router: router,
+        configuration: ApplicationConfiguration(reader: reader.scoped(to: "http")),
+        services: try await buildServices(reader: reader),
+        logger: logger
+    )
+    return app
+}
+
+/// Setup Fluent only for normal launch
+func buildServices(reader: ConfigReader) async throws -> [any Service] {
+    let isTesting = reader.bool(forKey: "testing")
+    guard isTesting != true else { return [] }
+    
     let fluent = Dependency(\.fluent).wrappedValue
     fluent.databases.use(.sqlite(.file("db.sqlite")), as: .sqlite)
     await fluent.migrations.add(CreateEventsTableMigration())
     try await fluent.migrate()
     
-    let router = try buildRouter()
-    let app = Application(
-        router: router,
-        configuration: ApplicationConfiguration(reader: reader.scoped(to: "http")),
-        services: [fluent],
-        logger: logger
-    )
-    return app
+    return [fluent]
 }
 
 /// Build router
