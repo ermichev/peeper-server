@@ -1,8 +1,8 @@
 //
 //  EventRepository.swift
-//  ScreenCaptureServer
+//  PeeperServer
 //
-//  Created by Александр Ермичев on 2026/02/02.
+//  Created by Aleksandr Ermichev on 2026/02/02.
 //
 
 import Dependencies
@@ -10,6 +10,7 @@ import Foundation
 
 struct EventRepository: Sendable {
     var events: @Sendable (_ from: TimeInterval?) async throws -> [Event]
+    var event: @Sendable (_ eventId: UUID) async throws -> Event?
     var uploadImage: @Sendable (_ image: Data) async throws -> Bool
     var notifyEvent: @Sendable (_ event: String) async throws -> Bool
 }
@@ -23,10 +24,13 @@ extension EventRepository {
 }
 
 extension EventRepository: DependencyKey {
-    static var liveValue: Self { InMemoryEventRepository.make() }
+    static var liveValue: Self {
+        InMemoryEventRepository.buildDependency()
+    }
     static var testValue: Self {
         .init(
             events: unimplemented("EventRepository.events"),
+            event: unimplemented("EventRepository.event"),
             uploadImage: unimplemented("EventRepository.uploadImage"),
             notifyEvent: unimplemented("EventRepository.notifyEvent")
         )
