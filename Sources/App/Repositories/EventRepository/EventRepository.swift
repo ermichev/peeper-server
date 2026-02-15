@@ -25,7 +25,7 @@ extension EventRepository {
 
 extension EventRepository: DependencyKey {
     static var liveValue: Self {
-        InMemoryEventRepository.buildDependency()
+        DatabaseEventRepository.buildDependency()
     }
     static var testValue: Self {
         .init(
