@@ -39,9 +39,14 @@ struct ObservedEventsController {
     }
     
     private func uploadImage(request: Request, context: some RequestContext) async throws -> HTTPResponse.Status {
-        let imageData = try await decodeMultipart(request: request)
-        guard try await storeImage(imageData) else { throw Errors.savingFailed }
-        return .ok
+        do {
+            let imageData = try await decodeMultipart(request: request)
+            guard try await storeImage(imageData) else { throw Errors.savingFailed }
+            return .ok
+        } catch {
+            if (error as? Errors) == .invalidRequest { return .badRequest }
+            throw error
+        }
     }
     
     private func decodeMultipart(request: Request) async throws -> Data {

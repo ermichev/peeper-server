@@ -19,26 +19,21 @@ struct ObserverRequestsController {
     
     var endpoints: RouteCollection<AppRequestContext> {
         RouteCollection(context: AppRequestContext.self)
-            .get("getEvents", use: events)
-            .get("getScreenCapture", use: screenCapture)
+            .get("getEvents", use: getEvents)
+            .get("getScreenCapture", use: getScreenCapture)
     }
     
-    func events(request: Request, context: some RequestContext) async throws -> [Event] {
+    func getEvents(request: Request, context: some RequestContext) async throws -> [Event] {
         let from = TimeInterval(request.uri.queryParameters["from"] ?? "")
         return try await fetchEvents(from)
     }
     
-    func screenCapture(request: Request, context: some RequestContext) async throws -> ByteBuffer {
-        guard let idParam = request.uri.queryParameters["id"] else { throw Errors.missingArgument }
-        guard let imageId = UUID(uuidString: String(idParam)) else { throw Errors.incorrectArgument }
-        guard try await isImageExist(imageId) else { throw Errors.notFound }
+    func getScreenCapture(request: Request, context: some RequestContext) async throws -> Response {
+        guard let idParam = request.uri.queryParameters["id"] else { return Response(status: .badRequest) }
+        guard let imageId = UUID(uuidString: String(idParam)) else { return Response(status: .badRequest) }
+        guard try await isImageExist(imageId) else { return Response(status: .notFound) }
         let imageData = try await fetchImage(imageId)
         return ByteBuffer(data: imageData)
-    }
-    
-    private enum Errors: Error {
-        case missingArgument
-        case incorrectArgument
-        case notFound
+            .response(from: request, context: context)
     }
 }
