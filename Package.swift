@@ -11,6 +11,8 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/hummingbird-project/hummingbird.git", from: "2.0.0"),
+        .package(url: "https://github.com/hummingbird-project/hummingbird-fluent.git", from: "2.0.0"),
+        .package(url: "https://github.com/vapor/fluent-sqlite-driver.git", from: "4.0.0"),
         .package(url: "https://github.com/apple/swift-configuration.git", from: "1.0.0", traits: [.defaults, "CommandLineArguments"]),
         .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.0.0"),
         .package(url: "https://github.com/vapor/multipart-kit.git", from: "4.0.0")
@@ -20,7 +22,9 @@ let package = Package(
             dependencies: [
                 .product(name: "Configuration", package: "swift-configuration"),
                 .product(name: "Dependencies", package: "swift-dependencies"),
+                .product(name: "FluentSQLiteDriver", package: "fluent-sqlite-driver"),
                 .product(name: "Hummingbird", package: "hummingbird"),
+                .product(name: "HummingbirdFluent", package: "hummingbird-fluent"),
                 .product(name: "MultipartKit", package: "multipart-kit")
             ],
             path: "Sources/App",
