@@ -33,7 +33,7 @@ struct ObserverRequestsController {
         guard let imageId = UUID(uuidString: String(idParam)) else { return Response(status: .badRequest) }
         guard try await isImageExist(imageId) else { return Response(status: .notFound) }
         let imageData = try await fetchImage(imageId)
-        return ByteBuffer(data: imageData)
+        return ByteBuffer(bytes: imageData)
             .response(from: request, context: context)
     }
 }
